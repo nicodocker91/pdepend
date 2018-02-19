@@ -15,13 +15,11 @@ RUN curl -Ls https://getcomposer.org/installer > /tmp/installer && \
     fi && \
     php /tmp/installer --no-ansi --install-dir=/usr/local/bin --filename=composer && \
 
-    # Use the project hirak/prestissimo to run composer in parallel
-    composer global require pdepend/pdepend:^2.5 && \
-    ln -s /root/.composer/vendor/pdepend/pdepend/src/bin/pdepend /usr/local/bin/pdepend && \
+    composer require pdepend/pdepend:^2.5 && \
     rm -rf /var/cache/apk/* /var/tmp/* /tmp/*
 
 VOLUME ["/data"]
 WORKDIR /data/www
 
-ENTRYPOINT ["pdepend"]
+ENTRYPOINT ["/var/www/html/vendor/bin/pdepend"]
 CMD ["--version"]
